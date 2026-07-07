@@ -1,0 +1,176 @@
+@use "variables";
+
+@mixin header-font-family() {
+  font-family: var(--wz-font-family, #{variables.$wz-header-font-family});
+
+  :lang(vi) {
+    font-family: var(--wz-font-family, #{variables.$wz-header-font-family-vi});
+  }
+
+  :lang(th) {
+    font-family: var(--wz-font-family, #{variables.$wz-header-font-family-th});
+  }
+}
+
+@mixin body-font-family() {
+  font-family: var(--wz-font-family, #{variables.$wz-body-font-family});
+
+  :lang(vi) {
+    font-family: var(--wz-font-family, #{variables.$wz-body-font-family-vi});
+  }
+
+  :lang(th) {
+    font-family: var(--wz-font-family, #{variables.$wz-body-font-family-th});
+  }
+}
+
+// ==== HEADLINES ===============
+
+@mixin headline {
+  @include header-font-family;
+
+  display: block;
+  font-weight: var(--wz-font-weight, 500);
+}
+
+@mixin headline1 {
+  @include headline;
+
+  font-size: 36px;
+}
+
+@mixin headline2 {
+  @include headline;
+
+  font-size: 28px;
+}
+
+@mixin headline3 {
+  @include headline;
+
+  font-size: 24px;
+}
+
+@mixin headline4 {
+  @include headline;
+
+  font-size: 20px;
+  letter-spacing: var(--wz-letter-spacing, 0.15px);
+}
+
+@mixin headline5 {
+  @include headline;
+
+  font-size: 18px;
+  letter-spacing: var(--wz-letter-spacing, 0.15px);
+}
+
+@mixin headline6 {
+  @include headline;
+
+  font-size: variables.$wz-font-size-normal;
+  letter-spacing: var(--wz-letter-spacing, 0.15px);
+}
+
+@mixin headline7 {
+  @include headline;
+
+  font-size: variables.$wz-font-size-small;
+  letter-spacing: var(--wz-letter-spacing, 0.2px);
+}
+
+// ==== SUB-HEADLINES ===========
+
+@mixin subhead {
+  @include body-font-family;
+
+  display: block;
+  font-weight: var(--wz-font-weight, 500);
+}
+
+@mixin subhead1 {
+  @include subhead;
+
+  font-size: 20px;
+  letter-spacing: var(--wz-letter-spacing, 0.15px);
+}
+
+@mixin subhead2 {
+  @include subhead;
+
+  font-size: 18px;
+  letter-spacing: var(--wz-letter-spacing, 0.15px);
+}
+
+@mixin subhead3 {
+  @include subhead;
+
+  font-size: variables.$wz-font-size-normal;
+  letter-spacing: var(--wz-letter-spacing, 0.15px);
+  line-height: 24px;
+}
+
+@mixin subhead4 {
+  @include subhead;
+
+  font-size: variables.$wz-font-size-small;
+  letter-spacing: var(--wz-letter-spacing, 0.1px);
+  line-height: 22px;
+}
+
+@mixin subhead5 {
+  @include subhead;
+
+  font-size: variables.$wz-font-size-mini;
+  letter-spacing: var(--wz-letter-spacing, 0.2px);
+}
+
+// ==== BODY =====================
+
+@mixin body {
+  @include body-font-family;
+
+  font-weight: 400;
+}
+
+@mixin body1 {
+  @include body;
+
+  font-size: variables.$wz-font-size-normal;
+  letter-spacing: var(--wz-letter-spacing, 0.5px);
+  line-height: 24px;
+}
+
+@mixin body2 {
+  @include body;
+
+  font-size: variables.$wz-font-size-small;
+  letter-spacing: var(--wz-letter-spacing, 0.25px);
+  line-height: 22px;
+}
+
+// ==== MISC =====================
+
+@mixin caption {
+  @include body-font-family;
+
+  font-size: variables.$wz-font-size-mini;
+  font-weight: var(--wz-font-weight, 400);
+  letter-spacing: var(--wz-letter-spacing, 0.2px);
+}
+
+@mixin overline {
+  @include body-font-family;
+
+  display: block;
+  font-size: variables.$wz-font-size-mini;
+  font-weight: var(--wz-font-weight, 500);
+  letter-spacing: var(--wz-letter-spacing, 1.5px);
+  text-transform: uppercase;
+}
+
+@mixin alignSlottedIcon {
+  ::slotted(i.w-icon) {
+    vertical-align: middle;
+  }
+}
