@@ -27,7 +27,7 @@ const PLACES: PlaceData[] = [
   { id: 7, name: "The Ivy Soho", desc: "Premium British", rating: "4.9 ★ (2,154)", color: "#E15B00", icon: "🍽️", category: "Fine Dining" }
 ];
 
-// Custom Fork & Spoon SVG matching the Waze Food cluster layout
+// Custom Fork & Spoon SVG corresponding to user request logo
 const ForkSpoonIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
     {/* Fork */}
@@ -45,7 +45,8 @@ export const ClusterPin: React.FC<ClusterPinProps> = ({ onSelect, showIssues }) 
 
   if (!showIssues) return null;
 
-  // Compute angles for the 7 fanned out pins across an upper arc (190° to 350°)
+  // Compute angles for the 7 fanned out pins
+  // We place them along an upper arc between 190 and 350 degrees
   const getFanCoords = (index: number) => {
     const startAngle = 190;
     const endAngle = 350;
@@ -54,10 +55,10 @@ export const ClusterPin: React.FC<ClusterPinProps> = ({ onSelect, showIssues }) 
     const angleDeg = startAngle + index * step;
     const angleRad = (angleDeg * Math.PI) / 180;
     
-    // Distance from center of the fan
+    // Fan outward distance
     const distance = 105;
     const x = distance * Math.cos(angleRad);
-    const y = distance * Math.sin(angleRad);
+    const y = distance * Math.sin(angleRad); // negative y goes up on screens
     
     return { x, y };
   };
@@ -116,8 +117,9 @@ export const ClusterPin: React.FC<ClusterPinProps> = ({ onSelect, showIssues }) 
                 onSelect();
               }}
             >
+              {/* Pin container */}
               <div className="relative w-full h-full cursor-pointer flex items-center justify-center filter drop-shadow-md">
-                {/* Colored Pin Core */}
+                {/* Visual Circle */}
                 <div 
                   className="w-10 h-10 rounded-full border-2 border-white flex items-center justify-center relative transition-shadow"
                   style={{ 
@@ -128,13 +130,13 @@ export const ClusterPin: React.FC<ClusterPinProps> = ({ onSelect, showIssues }) 
                   <span className="text-[19px] leading-none mb-0.5 select-none">{place.icon}</span>
                 </div>
                 
-                {/* Pin Arrow Tail */}
+                {/* Bottom Tail pointer */}
                 <div 
                   className="absolute bottom-[-3px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[5px]"
                   style={{ borderTopColor: "white" }}
                 />
 
-                {/* Individual Mini Tooltip on Card Hover */}
+                {/* Individual Mini Card Hover Tooltip */}
                 <AnimatePresence>
                   {isThisPlaceHovered && (
                     <motion.div
@@ -145,6 +147,7 @@ export const ClusterPin: React.FC<ClusterPinProps> = ({ onSelect, showIssues }) 
                       className="absolute bottom-14 left-1/2 -translate-x-1/2 z-50 w-52 pointer-events-none"
                     >
                       <WzCard elevation={2} className="!p-3 border-hairline relative !rounded-lg text-left bg-white shadow-xl">
+                        {/* Title & category */}
                         <div className="flex flex-col gap-0.5">
                           <span className="font-waze-boing font-bold text-content-default text-[13.5px] leading-tight">
                             {place.name}
@@ -153,6 +156,7 @@ export const ClusterPin: React.FC<ClusterPinProps> = ({ onSelect, showIssues }) 
                             {place.category}
                           </span>
                         </div>
+                        {/* Rating row */}
                         <div className="flex items-center gap-1.5 mt-1 text-content-p2">
                           <span className="font-sans text-[12px] font-medium text-[#E06B00]">
                             {place.rating}
@@ -162,6 +166,7 @@ export const ClusterPin: React.FC<ClusterPinProps> = ({ onSelect, showIssues }) 
                             Food Cluster
                           </span>
                         </div>
+                        {/* Call to action */}
                         <p className="font-sans text-[10px] text-primary font-medium mt-1.5 border-t border-hairline pt-1">
                           Click to select details
                         </p>
@@ -175,18 +180,20 @@ export const ClusterPin: React.FC<ClusterPinProps> = ({ onSelect, showIssues }) 
         })}
       </AnimatePresence>
 
-      {/* Center Cluster Master Base Pin */}
+      {/* Center Cluster Base Pin (Representative Stack of 4 Pins) */}
       <motion.div 
         animate={{ scale: isHovered ? 1.08 : 1 }}
         transition={{ type: "spring", damping: 15, stiffness: 200 }}
         className="relative z-30 flex items-center bg-white border-2 border-white rounded-full shadow-elevation-3 py-1 pl-1.5 pr-3 cursor-pointer h-12 w-[82px] overflow-hidden select-none"
       >
+        {/* Main Group Orange Circle with white fork & spoon */}
         <div className="w-[36px] h-[36px] rounded-full bg-[#E06B00] border border-white flex items-center justify-center text-white shadow-sm flex-shrink-0 z-10">
           <ForkSpoonIcon />
         </div>
 
-        {/* Multi-layered Crescent Effect to represent a stack of 4 pins */}
+        {/* 3 stacked yellow crescents fanning to the right to visually represent active clusters */}
         <div className="relative flex-1 h-full flex items-center pointer-events-none">
+          {/* Crescent 1 */}
           <div 
             className="absolute left-[30px] w-[30px] h-[30px] rounded-full bg-[#FFB300] border border-white z-0" 
             style={{ 
@@ -195,6 +202,7 @@ export const ClusterPin: React.FC<ClusterPinProps> = ({ onSelect, showIssues }) 
               transition: 'transform 0.25s cubic-bezier(0.4, 0, 0.2, 1)'
             }} 
           />
+          {/* Crescent 2 */}
           <div 
             className="absolute left-[36px] w-[26px] h-[26px] rounded-full bg-[#FFCA28] border border-white z-0" 
             style={{ 
@@ -203,6 +211,7 @@ export const ClusterPin: React.FC<ClusterPinProps> = ({ onSelect, showIssues }) 
               transition: 'transform 0.25s cubic-bezier(0.4, 0, 0.2, 1)'
             }} 
           />
+          {/* Crescent 3 */}
           <div 
             className="absolute left-[40px] w-[22px] h-[22px] rounded-full bg-[#FFE082] border border-white z-0" 
             style={{ 

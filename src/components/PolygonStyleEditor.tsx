@@ -34,21 +34,25 @@ export const PolygonStyleEditor: React.FC<PolygonStyleEditorProps> = ({
   const [lastInitialPosition, setLastInitialPosition] = useState<{ x: number, y: number } | null>(null);
   const dragOffset = useRef({ x: 0, y: 0 });
 
+  // Update position if initialPosition changes (selection changed)
   useEffect(() => {
     if (initialPosition && initialPosition !== lastInitialPosition) {
       const editorWidth = 288;
       const editorHeight = 220;
       
+      // Position to the right and slightly below the click point
       let targetX = initialPosition.x + 20;
       let targetY = initialPosition.y + 20;
 
+      // Adjust if it would go off-screen
       if (targetX + editorWidth > mapViewSize.width - MAP_PADDING) {
-        targetX = initialPosition.x - editorWidth - 20;
+        targetX = initialPosition.x - editorWidth - 20; // Try left side
       }
       if (targetY + editorHeight > mapViewSize.height - MAP_PADDING) {
         targetY = mapViewSize.height - editorHeight - MAP_PADDING;
       }
 
+      // Clamp to screen bounds
       targetX = Math.max(MAP_PADDING, Math.min(targetX, mapViewSize.width - editorWidth - MAP_PADDING));
       targetY = Math.max(MAP_PADDING, Math.min(targetY, mapViewSize.height - editorHeight - MAP_PADDING));
 
@@ -58,6 +62,7 @@ export const PolygonStyleEditor: React.FC<PolygonStyleEditorProps> = ({
     }
   }, [initialPosition, mapViewSize, lastInitialPosition]);
 
+  // Default fallback if no initialPosition
   useEffect(() => {
     if (!isInitialized && mapViewSize.width > 0 && !initialPosition) {
       setPosition({ 
@@ -68,6 +73,7 @@ export const PolygonStyleEditor: React.FC<PolygonStyleEditorProps> = ({
     }
   }, [mapViewSize, isInitialized, initialPosition]);
 
+  // Ensure editor stays within bounds when window/sidebar resizes
   useEffect(() => {
     if (isInitialized && !isDragging) {
       const editorWidth = 288;
@@ -100,6 +106,7 @@ export const PolygonStyleEditor: React.FC<PolygonStyleEditorProps> = ({
       const newX = e.clientX - dragOffset.current.x;
       const newY = e.clientY - dragOffset.current.y;
 
+      // Clamp within view
       const clampedX = Math.max(MAP_PADDING, Math.min(newX, mapViewSize.width - 288 - MAP_PADDING));
       const clampedY = Math.max(MAP_PADDING, Math.min(newY, mapViewSize.height - 220 - MAP_PADDING));
 
@@ -133,11 +140,8 @@ export const PolygonStyleEditor: React.FC<PolygonStyleEditorProps> = ({
         className="px-4 py-3 border-b border-hairline flex items-center justify-between bg-surface-variant/30 cursor-grab active:cursor-grabbing"
         onMouseDown={handleMouseDown}
       >
-        <h3 className="font-medium text-content-default text-sm flex items-center gap-1.5">
-          <span className="w-2.5 h-2.5 rounded-sm inline-block border border-primary bg-primary/20"></span>
-          Polygon Style
-        </h3>
-        <WzButton variant="clear" onClick={onClose} className="!p-1 !h-auto" onMouseDown={e => e.stopPropagation()}>
+        <h3 className="font-medium text-content-default text-sm">Polygon Style</h3>
+        <WzButton color="clear-icon" onClick={onClose} className="!p-1 !h-auto" onMouseDown={e => e.stopPropagation()}>
            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </WzButton>
       </div>

@@ -58,6 +58,7 @@ interface WzButtonProps {
   color?: string;
   className?: string;
   disabled?: boolean;
+  title?: string;
 }
 
 export const WzButton: React.FC<WzButtonProps> = ({
@@ -67,7 +68,8 @@ export const WzButton: React.FC<WzButtonProps> = ({
   variant = 'primary',
   color,
   className = '',
-  disabled = false
+  disabled = false,
+  title
 }) => {
   if (color === 'clear-icon' || variant === 'clear') {
     return (
@@ -75,6 +77,7 @@ export const WzButton: React.FC<WzButtonProps> = ({
         onClick={onClick}
         onMouseDown={onMouseDown}
         disabled={disabled}
+        title={title}
         className={`p-1.5 hover:bg-surface-variant rounded-md text-content-p1 transition-colors ${className}`}
       >
         {children}
@@ -92,6 +95,7 @@ export const WzButton: React.FC<WzButtonProps> = ({
       onClick={onClick}
       onMouseDown={onMouseDown}
       disabled={disabled}
+      title={title}
       className={`${baseStyles} ${variantStyles} ${className}`}
     >
       {children}
